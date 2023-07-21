@@ -29,6 +29,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          repository: nutsfinance/tapio-qa
+          token: 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
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -42,6 +45,4 @@ jobs:
       - name: Navigate to cypress/e2e
         run: cd cypress/e2e
       - name: Run tapio-qa tests on Chrome
-        run: pnpm run cypress:run:chrome
-      - name: Run tapio-qa tests on Edge
-        run: pnpm run cypress:run:edge
+        run: pnpm run cypress:run
