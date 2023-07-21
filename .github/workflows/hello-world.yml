@@ -33,3 +33,15 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, ${{github.event.inputs.name}}!
+
+      - name: Clone tapio-qa repository to run e2e tests
+        run: |
+          git clone https://github.com/nutsfinance/tapio-qa.git ./tapio-qa
+          cd tapio-qa
+          pnpm i
+      - name: Navigate to cypress/e2e
+        run: cd cypress/e2e
+      - name: Run tapio-qa tests on Chrome
+        run: pnpm run cypress:run:chrome
+      - name: Run tapio-qa tests on Edge
+        run: pnpm run cypress:run:edge
