@@ -26,6 +26,7 @@ jobs:
           cd ~/
           git clone https://github.com/tjovcheska/t-qa.git
           cd t-qa
+          echo $PWD
   e2e-chrome:
     needs: [clone-tapio-qa-repository]
     runs-on: ubuntu-latest
