@@ -33,9 +33,6 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: tjovcheska/t-qa
-
-      - name: Before checkout
-        run: cd /home/runner/work/hello-world/hello-world/t-qa
       
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v2
