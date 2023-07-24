@@ -27,22 +27,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-        with:
-          repository: nutsfinance/tapio-qa
-          token: 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
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, ${{github.event.inputs.name}}!
-
-      - name: Clone tapio-qa repository to run e2e tests
-        run: |
-          git clone https://github.com/nutsfinance/tapio-qa.git ./tapio-qa
-          cd tapio-qa
-          pnpm i
-      - name: Navigate to cypress/e2e
-        run: cd cypress/e2e
-      - name: Run tapio-qa tests on Chrome
-        run: pnpm run cypress:run
+      runs-on: ubuntu-latest
+      env:
+        ROS_CI_DESKTOP: "`lsb_release -cs`"
+        ROS_DISTRO: noetic
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            submodules: recursive
+        - name: Download Github project
+          run: |
+            cd ~/
+            ssh-agent sh -c 'echo "${{ secrets.PRIVATE_DEPENDENCY }}" | ssh-add - && git clone git@github.com:tjovcheska/ToDo.git'
+            cd tapio-qa
