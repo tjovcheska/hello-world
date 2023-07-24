@@ -24,9 +24,10 @@ jobs:
         # Please generate ssh key and add to PRIVATE_DEPENDENCY https://parkerrobert.medium.com/clone-private-repository-for-github-actions-of-another-repository-ada04dc0e195
         run: |
           cd ~/
-          git https://github.com/tjovcheska/t-qa.git
+          git clone https://github.com/tjovcheska/t-qa.git
           cd t-qa
   e2e-chrome:
+    needs: [clone-tapio-qa-repository]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -104,6 +105,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }} # Please add this URL to secrets https://hooks.slack.com/services/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
   e2e-edge:
+    needs: [clone-tapio-qa-repository]
     runs-on: ubuntu-latest
 
     steps:
