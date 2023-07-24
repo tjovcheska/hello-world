@@ -11,7 +11,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  clone-tapio-qa-repository:
+    runs-on: ubuntu-latest
+    env:
+      ROS_CI_DESKTOP: "`lsb_release -cs`"
+      ROS_DISTRO: noetic
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Clone tapio-qa repositoy from Github
+        # Please generate ssh key and add to PRIVATE_DEPENDENCY https://parkerrobert.medium.com/clone-private-repository-for-github-actions-of-another-repository-ada04dc0e195
+        run: |
+          git clone https://github.com/tjovcheska/t-qa.git
+          echo $PWD
   e2e-chrome:
+    needs: [clone-tapio-qa-repository]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -56,13 +71,6 @@ jobs:
           fluxbox &
         env:
           DISPLAY: :0.0
-          
-      - name: Clone tapio-qa repositoy from Github
-        # Please generate ssh key and add to PRIVATE_DEPENDENCY https://parkerrobert.medium.com/clone-private-repository-for-github-actions-of-another-repository-ada04dc0e195
-        run: |
-          git clone https://github.com/tjovcheska/t-qa.git
-          cd t-qa
-          echo $PWD
 
       - name: Run e2e tests (cypress-action)
         uses: cypress-io/github-action@cdbbcd60fb5d967d7a37d8eb148add76a7ded7b6 # pin@v5.1.0
@@ -96,6 +104,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }} # Please add this URL to secrets https://hooks.slack.com/services/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
   e2e-edge:
+    needs: [clone-tapio-qa-repository]
     runs-on: ubuntu-latest
 
     steps:
@@ -141,13 +150,6 @@ jobs:
           fluxbox &
         env:
           DISPLAY: :0.0
-          
-      - name: Clone tapio-qa repositoy from Github
-        # Please generate ssh key and add to PRIVATE_DEPENDENCY https://parkerrobert.medium.com/clone-private-repository-for-github-actions-of-another-repository-ada04dc0e195
-        run: |
-          git clone https://github.com/tjovcheska/t-qa.git
-          cd t-qa
-          echo $PWD
 
       - name: Run e2e tests (cypress-action)
         uses: cypress-io/github-action@cdbbcd60fb5d967d7a37d8eb148add76a7ded7b6 # pin@v5.1.0
