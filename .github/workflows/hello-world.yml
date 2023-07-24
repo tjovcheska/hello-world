@@ -1,26 +1,27 @@
-name: CI
+name: Clone Private Repo
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-    inputs:
-      name: 
-        description: 'Just a name'
-        required: true
-        default: 'World'
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
-      - name: Download Private Repository
-        run: |
-          cd ~/
-          git clone https://github.com/tjovcheska/ToDo.git
-          cd ToDo
-          ls -la
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Add SSH key to agent
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-add ~/.ssh/id_rsa
+
+    - name: Clone private repo
+      run: |
+        git clone git@github.com:tjovcheska/FavDish.git
+
+    # Add further steps as needed for your workflow.
