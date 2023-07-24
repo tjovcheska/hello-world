@@ -24,6 +24,7 @@ jobs:
         # Please generate ssh key and add to PRIVATE_DEPENDENCY https://parkerrobert.medium.com/clone-private-repository-for-github-actions-of-another-repository-ada04dc0e195
         run: |
           git clone https://github.com/tjovcheska/t-qa.git
+          cd t-qa
           echo $PWD
   e2e-chrome:
     needs: [clone-tapio-qa-repository]
