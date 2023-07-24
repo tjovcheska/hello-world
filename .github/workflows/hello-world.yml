@@ -20,6 +20,6 @@ jobs:
 
       - name: Download Private Repository
         run: |
-          git clone https://tjovcheska:${{ secrets.PRIVATE_REPOSITORY }}@github.com/tjovcheska/FavDish.git .
+          git clone https://${{ secrets.PRIVATE_REPOSITORY }}@github.com/tjovcheska/FavDish.git
           cd FavFish
           ls -la
